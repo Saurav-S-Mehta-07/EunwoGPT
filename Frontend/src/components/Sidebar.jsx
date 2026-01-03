@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Sidebar.css";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
+import server from './environment.js';
 
 function Sidebar() {
   const {
@@ -23,7 +24,7 @@ function Sidebar() {
 
   const getAllThreads = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/thread", {
+      const response = await fetch(`${server}/api/thread`, {
         credentials: "include"
       });
 
@@ -66,7 +67,7 @@ function Sidebar() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${newThreadId}`,
+        `${server}/api/thread/${newThreadId}`,
         { credentials: "include" }
       );
 
@@ -89,7 +90,7 @@ function Sidebar() {
   const deleteThread = async (threadId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${threadId}`,
+        `${server}/api/thread/${threadId}`,
         {
           method: "DELETE",
           credentials: "include"

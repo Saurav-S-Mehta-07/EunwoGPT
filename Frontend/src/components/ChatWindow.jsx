@@ -4,6 +4,7 @@ import Chat from "./Chat.jsx";
 import { ScaleLoader, BeatLoader , CircleLoader} from "react-spinners";
 import { MyContext } from "./MyContext.jsx";
 // import { Backgrounds } from "../assets/assests.js";
+import server from './environment.js';
 
 function ChatWindow() {
   const {
@@ -42,7 +43,7 @@ function ChatWindow() {
 
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8080/api/chat", {
+      const response = await fetch(`${server}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -79,7 +80,7 @@ function ChatWindow() {
   const handleLogout = async () => {
     setLogoutLoading(true);
     try {
-      const result = await fetch("http://localhost:8080/api/auth/logout", {
+      const result = await fetch(`${server}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

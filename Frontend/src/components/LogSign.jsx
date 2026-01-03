@@ -5,6 +5,7 @@ import "./LogSign.css";
 import { MyContext } from "./MyContext";
 // import video from "../assets/initialBg.mp4";
 import { v1 as uuidv1 } from "uuid";
+import server from './environment.js';
 
 function LogSign() {
   const {
@@ -73,7 +74,7 @@ function LogSign() {
 
     try {
        setLoading(true);
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch(`${server}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -109,7 +110,7 @@ function LogSign() {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8080/api/auth/signup", {
+      const res = await fetch(`${server}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
