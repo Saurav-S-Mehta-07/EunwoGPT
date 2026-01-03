@@ -1,0 +1,95 @@
+.sidebar{
+    /* background-color: #171717; */
+    background-color: rgba(0,0,0,0.8);
+    color: #b4b4b4;
+    height: 100vh;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+}
+button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0.5px solid rgba(255,255,255,0.5);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgba(255,255,255,0.1);
+}
+
+button span{
+    font-size: 1rem;
+}
+
+.logo{
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.history{
+    margin: 10px;
+    padding: 10px;
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    scrollbar-color: black transparent;
+}
+
+
+.history li{
+    list-style-type: none;
+    cursor: pointer;
+    padding: 2px 5px;
+    margin-bottom: 0.3rem;
+    font-size: 14px;
+    border:solid 10px transparent;
+    position: relative;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+}
+
+.history li:hover{
+    background-color: rgba(255,255,255,0.2);
+}
+
+.sign{
+    padding: 10px;
+    margin:10px;
+    font-size: 14px;
+    text-align: center;
+    border-top: solid 0.25px rgba(255,255,255,0.3);
+}
+
+.fa-trash{
+    position:absolute;
+    right: 0;
+    opacity: 0;
+}
+
+.history li:hover .fa-trash{
+    opacity: 1;
+    color: white;
+}
+
+.fa-trash:hover{
+    color: #F87171 !important;
+}
+
+
+.highlighted{
+
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+
+}
