@@ -139,9 +139,9 @@ function LogSign() {
   return (
     <>
       <div className="videoDivInLogInPage">
-        <video autoPlay muted loop playsInline className="video">
+        {/* <video autoPlay muted loop playsInline className="video">
           <source src={video} type="video/mp4" />
-        </video>
+        </video> */}
       </div>
 
       {!isLoggedIn && (

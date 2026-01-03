@@ -3,7 +3,7 @@ import "./ChatWindow.css";
 import Chat from "./Chat.jsx";
 import { ScaleLoader, BeatLoader , CircleLoader} from "react-spinners";
 import { MyContext } from "./MyContext.jsx";
-import { Backgrounds } from "../assets/assests.js";
+// import { Backgrounds } from "../assets/assests.js";
 
 function ChatWindow() {
   const {
@@ -99,12 +99,12 @@ function ChatWindow() {
   const changeTheme = () => {
     const themes = [
       null,
-      Backgrounds.blue,
-      Backgrounds.water,
-      Backgrounds.cat,
-      Backgrounds.bgVideo,
-      Backgrounds.ghostsmoke,
-      Backgrounds.lightBg,
+      // Backgrounds.blue,
+      // Backgrounds.water,
+      // Backgrounds.cat,
+      // Backgrounds.bgVideo,
+      // Backgrounds.ghostsmoke,
+      // Backgrounds.lightBg,
     ];
     setIndex((prev) => {
       const next = (prev + 1) % themes.length;
