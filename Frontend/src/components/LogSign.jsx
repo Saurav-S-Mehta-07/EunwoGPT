@@ -3,7 +3,7 @@ import { BeatLoader } from "react-spinners";
 
 import "./LogSign.css";
 import { MyContext } from "./MyContext";
-import video from "../assets/initialBg.mp4";
+// import video from "../assets/initialBg.mp4";
 import { v1 as uuidv1 } from "uuid";
 
 function LogSign() {
