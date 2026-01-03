@@ -172,16 +172,18 @@
 
 
 /* sidebar show icon */
-
 .showSidebarIcon{
     position: absolute;
     z-index: 9999;
     display: none;
     cursor: pointer;
-}
 
+
+}
 
 .mic-on {
   box-shadow: 0 0 10px rgba(255,255,255, 0.5);
   animation: pulse 1.2s infinite;
+
+
 }
