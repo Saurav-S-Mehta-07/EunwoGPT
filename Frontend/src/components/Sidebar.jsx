@@ -54,7 +54,6 @@ function Sidebar() {
   useEffect(() => {
     
     if (isUser){
-      console.log(isUser, "get all threads called")
        getAllThreads();
     }
   }, [currThreadId, isUser]);
