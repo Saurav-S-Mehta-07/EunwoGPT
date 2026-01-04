@@ -15,17 +15,20 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+// Tell Express to trust the proxy (important on Render)
+app.set("trust proxy", 1);
+
 // Detect frontend origin dynamically
 const FRONTEND_ORIGIN =
   process.env.NODE_ENV === "production"
-    ? "https://eunwogpt-cb0g.onrender.com" // your deployed frontend
+    ? "https://eunwogpt-cb0g.onrender.com" // deployed frontend
     : "http://localhost:3000"; // local dev
 
 // CORS setup
 app.use(
   cors({
     origin: FRONTEND_ORIGIN,
-    credentials: true, // important to send cookies
+    credentials: true, // allow cookies
   })
 );
 
@@ -43,9 +46,9 @@ app.use(
       ttl: 14 * 24 * 60 * 60, // 14 days in seconds
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days in ms
+      maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // only HTTPS in prod
+      secure: process.env.NODE_ENV === "production", // HTTPS only in prod
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
