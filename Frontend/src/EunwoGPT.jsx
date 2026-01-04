@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 
 import LogSign from './components/LogSign.jsx';
 
+import server from './components/environment.js';
 
 
 function EunwoGPT() {
