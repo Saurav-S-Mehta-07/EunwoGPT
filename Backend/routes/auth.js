@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-app.get("/api/test-auth", (req, res) => {
+app.get("/test-auth", (req, res) => {
   res.json({
     isAuth: req.isAuthenticated(),
     session: req.session,
