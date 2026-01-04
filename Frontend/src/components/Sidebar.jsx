@@ -120,7 +120,7 @@ function Sidebar() {
     <section className={`sidebar ${showSidebar ? "show" : "hide"}`} onClick={()=>setIsDropDownOpen(false)}>
       <button className="addNewChatBtn" onClick={createNewChat}>
         <img
-          src="src/assets/whiteLogo.png"
+          src="../assets/whiteLogo.png"
           alt="gpt logo"
           className="logo"
         />
