@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Sidebar.css";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
-import server from "./environment.js";
+import server from './environment.js';
 
 function Sidebar() {
   const {
@@ -24,7 +24,7 @@ function Sidebar() {
 
   const getAllThreads = async () => {
     try {
-        const response = await fetch(`${server}/api/thread`, {
+      const response = await fetch(`${server}/api/thread`, {
         credentials: "include"
       });
 
@@ -32,8 +32,6 @@ function Sidebar() {
         setIsUser(false);
         setIsLoggedIn(false);
         setAllThreads([]);
-        setPrevChats([]);
-        setCurrThreadId(null);
         return;
       }
 
@@ -53,7 +51,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (isUser) getAllThreads();
-  }, [isUser]);
+  }, [currThreadId, isUser]);
 
   const createNewChat = () => {
     if (showSidebar) setShowSidebar(false);
@@ -77,7 +75,6 @@ function Sidebar() {
         setIsUser(false);
         setIsLoggedIn(false);
         setPrevChats([]);
-        setCurrThreadId(null);
         return;
       }
 
@@ -104,12 +101,11 @@ function Sidebar() {
         setIsUser(false);
         setIsLoggedIn(false);
         setAllThreads([]);
-        setPrevChats([]);
-        setCurrThreadId(null);
         return;
       }
 
-      await response.json();
+      const data = await response.json();
+      console.log("Deleted thread:", data);
 
       if (currThreadId === threadId) {
         createNewChat();
@@ -121,10 +117,7 @@ function Sidebar() {
   };
 
   return (
-    <section
-      className={`sidebar ${showSidebar ? "show" : "hide"}`}
-      onClick={() => setIsDropDownOpen(false)}
-    >
+    <section className={`sidebar ${showSidebar ? "show" : "hide"}`} onClick={()=>setIsDropDownOpen(false)}>
       <button className="addNewChatBtn" onClick={createNewChat}>
         <img
           src="/assets/whiteLogo.png"
