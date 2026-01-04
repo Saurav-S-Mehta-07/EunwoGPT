@@ -89,6 +89,7 @@ function LogSign() {
       }
       setIsUser(true);
       createNewChat();
+      setIsLoggedIn(true); 
     } catch {
       setLoginError("Server error");
     }
@@ -132,6 +133,7 @@ function LogSign() {
       setIsUser(true);
       createNewChat();
       setLoading(false);
+      setIsLoggedIn(true); 
     } catch {
       setSignupError("Server error");
     }
