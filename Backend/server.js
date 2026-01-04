@@ -6,43 +6,59 @@ import passport from "passport";
 import cors from "cors";
 import dotenv from "dotenv";
 import ChatRoutes from "./routes/chat.js";
+import authRoutes from "./routes/auth.js";
 
 import "./config/passport.js";
-import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT||8080;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
-app.use(cors({
-  origin: "https://eunwogpt-cb0g.onrender.com", 
-  credentials: true
-}));
+// Detect frontend origin dynamically
+const FRONTEND_ORIGIN =
+  process.env.NODE_ENV === "production"
+    ? "https://eunwogpt-cb0g.onrender.com" // your deployed frontend
+    : "http://localhost:3000"; // local dev
+
+// CORS setup
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    credentials: true, // important to send cookies
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "mysecret",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_ATLAS_URL
+      mongoUrl: process.env.MONGO_ATLAS_URL,
+      ttl: 14 * 24 * 60 * 60, // 14 days in seconds
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 14,
-    }
+      maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days in ms
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // only HTTPS in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routes
 app.use("/api", ChatRoutes);
 app.use("/api/auth", authRoutes);
 
-
+// Connect MongoDB
 const connectDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_ATLAS_URL);
@@ -52,58 +68,8 @@ const connectDb = async () => {
   }
 };
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDb();
 });
-
-
-
-
-
-
-// app.get("/chat", async (req, res) => {
-//   const message = req.query.message;
-//   if (!message) return res.status(400).json({ error: "Message is required" });
-
-//   try {
-//     const response = await groq.chat.completions.create({
-//       model: "llama-3.1-8b-instant",
-//       messages: [
-//         {
-//           role: "system",
-//           content:
-//             "You are a helpful assistant like ChatGPT. Keep responses concise, clear, and short. Only provide code if asked. Always use plain text formatting.",
-//         },
-//         { role: "user", content: message },
-//       ],
-//     });
-
-//     const answer = response.choices?.[0]?.message?.content || "No response generated.";
-//     res.json({ reply: answer });
-
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
-
-// app.post("/test", async (req, res) => {
-//   try {
-//     const response = await groq.chat.completions.create({
-//       model: "openai/gpt-oss-20b",
-//       messages: [
-//         {
-//           role: "user",
-//           content: req.body.message,
-//         },
-//       ],
-//     });
-//     let reply = response.choices[0].message.content;
-//     res.json(reply);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "API error" });
-//   }
-// });
-
