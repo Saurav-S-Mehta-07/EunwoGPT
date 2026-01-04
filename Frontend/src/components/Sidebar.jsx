@@ -18,6 +18,7 @@ function Sidebar() {
     setShowSidebar,
     isUser,
     setIsUser,
+    isLoggedIn,
     setIsLoggedIn,
     setIsDropDownOpen
   } = useContext(MyContext);
@@ -50,8 +51,8 @@ function Sidebar() {
   };
 
   useEffect(() => {
-    if (isUser) getAllThreads();
-  }, [currThreadId, isUser]);
+    if (isLoggedIn) getAllThreads();
+  }, [currThreadId, isLoggedIn]);
 
   const createNewChat = () => {
     if (showSidebar) setShowSidebar(false);
