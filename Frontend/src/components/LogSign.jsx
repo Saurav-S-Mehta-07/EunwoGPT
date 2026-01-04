@@ -38,13 +38,11 @@ function LogSign() {
   const [signupValidated, setSignupValidated] = useState(false);
 
   const showLoginPage = () => {
-    setIsLoggedIn(true);
     setShowLogIn(true);
     setShowSignUp(false);
   };
 
   const showSignUpPage = () => {
-    setIsLoggedIn(true);
     setShowSignUp(true);
     setShowLogIn(false);
   };
@@ -90,6 +88,8 @@ function LogSign() {
       setIsUser(true);
       createNewChat();
       setIsLoggedIn(true); 
+      setShowLogIn(false);
+      setShowSignUp(false);
     } catch {
       setLoginError("Server error");
     }
@@ -133,7 +133,9 @@ function LogSign() {
       setIsUser(true);
       createNewChat();
       setLoading(false);
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
+      setShowLogIn(false);
+      setShowSignUp(false); 
     } catch {
       setSignupError("Server error");
     }
