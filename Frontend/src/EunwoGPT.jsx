@@ -48,10 +48,9 @@ function EunwoGPT() {
           credentials: 'include',
         });
         const data = await res.json();
-
         if (res.ok && data.user) {
-          setIsUser(true);
           setIsLoggedIn(true);
+          setIsUser(true);
           setCurrThreadId(uuidv1());
           setPrevChats([]);
         } else {
