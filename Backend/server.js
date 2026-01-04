@@ -15,27 +15,24 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-// Tell Express to trust the proxy (important on Render)
 app.set("trust proxy", 1);
 
-// Detect frontend origin dynamically
 const FRONTEND_ORIGIN =
   process.env.NODE_ENV === "production"
-    ? "https://eunwogpt-cb0g.onrender.com" // deployed frontend
-    : "http://localhost:3000"; // local dev
+    ? "https://eunwogpt-cb0g.onrender.com" 
+    : "http://localhost:3000";
 
-// CORS setup
+
 app.use(
   cors({
     origin: FRONTEND_ORIGIN,
-    credentials: true, // allow cookies
+    credentials: true, 
   })
 );
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "mysecret",
@@ -43,12 +40,12 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_ATLAS_URL,
-      ttl: 14 * 24 * 60 * 60, // 14 days in seconds
+      ttl: 7 * 24 * 60 * 60, 
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
+      maxAge: 1000 * 60 * 60 * 24 * 7, 
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+      secure: process.env.NODE_ENV === "production", 
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
@@ -57,11 +54,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
 app.use("/api", ChatRoutes);
 app.use("/api/auth", authRoutes);
 
-// Connect MongoDB
 const connectDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_ATLAS_URL);
@@ -71,7 +66,6 @@ const connectDb = async () => {
   }
 };
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDb();
