@@ -6,7 +6,7 @@ import { MyContext } from './components/MyContext';
 import "./EunwoGPT.css";
 import {v1 as uuidv1} from 'uuid';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import LogSign from './components/LogSign.jsx';
 
