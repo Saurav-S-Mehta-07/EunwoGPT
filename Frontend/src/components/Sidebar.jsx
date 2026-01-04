@@ -3,6 +3,7 @@ import "./Sidebar.css";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
 import server from './environment.js';
+import { isLoggedIn } from "../../../Backend/middleware/authMiddleware.js";
 
 function Sidebar() {
   const {
@@ -18,6 +19,7 @@ function Sidebar() {
     setShowSidebar,
     isUser,
     setIsUser,
+    isLoggedIn,
     setIsLoggedIn,
     setIsDropDownOpen
   } = useContext(MyContext);
@@ -50,8 +52,11 @@ function Sidebar() {
   };
 
   useEffect(() => {
-    console.log("called now getAllThreads");
-    if (isUser) getAllThreads();
+    
+    if (isUser){
+      console.log(isUser, "get all threads called")
+       getAllThreads();
+    }
   }, [currThreadId, isUser]);
 
   const createNewChat = () => {
