@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Sidebar.css";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
@@ -23,6 +23,7 @@ function Sidebar() {
     setIsDropDownOpen
   } = useContext(MyContext);
 
+  // Fetch all threads
   const getAllThreads = async () => {
     try {
       const response = await fetch(`${server}/api/thread`, {
@@ -33,6 +34,7 @@ function Sidebar() {
         setIsUser(false);
         setIsLoggedIn(false);
         setAllThreads([]);
+        setPrevChats([]);
         return;
       }
 
@@ -46,14 +48,16 @@ function Sidebar() {
 
       setAllThreads(filterData);
     } catch (err) {
-      console.log("Error fetching threads:", err);
+      console.error("Error fetching threads:", err);
     }
   };
 
+  // Fetch threads on login or thread change
   useEffect(() => {
     if (isLoggedIn) getAllThreads();
   }, [currThreadId, isLoggedIn]);
 
+  // Create new chat
   const createNewChat = () => {
     if (showSidebar) setShowSidebar(false);
     setNewChat(true);
@@ -63,6 +67,7 @@ function Sidebar() {
     setPrevChats([]);
   };
 
+  // Switch to another thread
   const changeThread = async (newThreadId) => {
     setCurrThreadId(newThreadId);
 
@@ -84,10 +89,11 @@ function Sidebar() {
       setNewChat(false);
       setReply(null);
     } catch (err) {
-      console.log("Error fetching thread messages:", err);
+      console.error("Error fetching thread messages:", err);
     }
   };
 
+  // Delete a thread
   const deleteThread = async (threadId) => {
     try {
       const response = await fetch(
@@ -102,6 +108,7 @@ function Sidebar() {
         setIsUser(false);
         setIsLoggedIn(false);
         setAllThreads([]);
+        setPrevChats([]);
         return;
       }
 
@@ -111,20 +118,20 @@ function Sidebar() {
       if (currThreadId === threadId) {
         createNewChat();
       }
+
       await getAllThreads();
     } catch (err) {
-      console.log("Error deleting thread:", err);
+      console.error("Error deleting thread:", err);
     }
   };
 
   return (
-    <section className={`sidebar ${showSidebar ? "show" : "hide"}`} onClick={()=>setIsDropDownOpen(false)}>
+    <section
+      className={`sidebar ${showSidebar ? "show" : "hide"}`}
+      onClick={() => setIsDropDownOpen(false)}
+    >
       <button className="addNewChatBtn" onClick={createNewChat}>
-        <img
-          src="/assets/whiteLogo.png"
-          alt="gpt logo"
-          className="logo"
-        />
+        <img src="/assets/whiteLogo.png" alt="gpt logo" className="logo" />
         <span>
           <i className="fa-solid fa-pen-to-square"></i>
         </span>
@@ -137,7 +144,7 @@ function Sidebar() {
             onClick={() => changeThread(thread.threadId)}
             className={currThreadId === thread.threadId ? "highlighted" : ""}
           >
-            {thread.title.slice(0, 25) + "..."}
+            {thread.title.length > 25 ? thread.title.slice(0, 25) + "..." : thread.title}
             <i
               className="fa-solid fa-trash"
               onClick={(e) => {

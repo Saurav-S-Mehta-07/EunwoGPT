@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import "./Chatwindow.css";
 import Chat from "./Chat.jsx";
-import { ScaleLoader, BeatLoader , CircleLoader} from "react-spinners";
+import { ScaleLoader, BeatLoader } from "react-spinners";
 import { MyContext } from "./MyContext.jsx";
-// import { Backgrounds } from "../assets/assests.js";
 import server from './environment.js';
 
 function ChatWindow() {
@@ -29,20 +28,21 @@ function ChatWindow() {
   const [logoutLoading, setLogoutLoading] = useState(false);
   const [index, setIndex] = useState(0);
   const [theme, setTheme] = useState(null);
-
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
 
   const videoRef = useRef(null);
   const recognitionRef = useRef(null);
 
+  // Fetch reply from API
   const getReply = async () => {
     if (!isUser) return;
+
     document.querySelector(".input").style.height = "auto";
     setNewChat(false);
+    setLoading(true);
 
     try {
-      setLoading(true);
       const response = await fetch(`${server}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,6 +66,7 @@ function ChatWindow() {
     }
   };
 
+  // Update previous chats when reply changes
   useEffect(() => {
     if (prompt && reply) {
       setPrevChats((prev) => [
@@ -77,6 +78,7 @@ function ChatWindow() {
     }
   }, [reply]);
 
+  // Logout user
   const handleLogout = async () => {
     setLogoutLoading(true);
     try {
@@ -97,16 +99,9 @@ function ChatWindow() {
     }
   };
 
+  // Change background theme
   const changeTheme = () => {
-    const themes = [
-      null,
-      // Backgrounds.blue,
-      // Backgrounds.water,
-      // Backgrounds.cat,
-      // Backgrounds.bgVideo,
-      // Backgrounds.ghostsmoke,
-      // Backgrounds.lightBg,
-    ];
+    const themes = [null];
     setIndex((prev) => {
       const next = (prev + 1) % themes.length;
       setTheme(themes[next]);
@@ -118,9 +113,9 @@ function ChatWindow() {
     if (videoRef.current) videoRef.current.load();
   }, [theme]);
 
+  // Speech recognition setup
   useEffect(() => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       setSpeechSupported(false);
@@ -135,17 +130,14 @@ function ChatWindow() {
     recognition.interimResults = false;
 
     recognition.onstart = () => setIsListening(true);
-
     recognition.onresult = (e) => {
       const text = e.results[0][0].transcript;
       setPrompt((prev) => (prev ? prev + " " + text : text));
     };
-
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => setIsListening(false);
 
     recognitionRef.current = recognition;
-
   }, []);
 
   const startMic = () => {
@@ -248,8 +240,7 @@ function ChatWindow() {
               onChange={(e) => {
                 setPrompt(e.target.value);
                 e.target.style.height = "auto";
-                e.target.style.height =
-                  Math.min(e.target.scrollHeight, 250) + "px";
+                e.target.style.height = Math.min(e.target.scrollHeight, 250) + "px";
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -259,25 +250,25 @@ function ChatWindow() {
               }}
             />
 
-            {(speechSupported && prompt.trim().length===0) && (
+            {(speechSupported && prompt.trim().length === 0) && (
               <div
                 onClick={startMic}
                 id="micIconDiv"
                 className={isListening ? "mic-on" : "mic-off"}
               >
-              <i className="fa-solid fa-microphone"></i>
+                <i className="fa-solid fa-microphone"></i>
               </div>
             )}
-            {(prompt.trim().length!==0 || !speechSupported) && (
-            <div id="submit" onClick={() => prompt.trim() && getReply()}>
-              <i className="fa-solid fa-paper-plane"></i>
-            </div>
+
+            {(prompt.trim().length !== 0 || !speechSupported) && (
+              <div id="submit" onClick={() => prompt.trim() && getReply()}>
+                <i className="fa-solid fa-paper-plane"></i>
+              </div>
             )}
           </div>
 
           <p className="info">
-            EunwoGPT can make mistakes. Check important info. See Cookie
-            Preferences.
+            EunwoGPT can make mistakes. Check important info. See Cookie Preferences.
           </p>
         </div>
       </div>
