@@ -89,6 +89,7 @@ function LogSign() {
       }
       setIsUser(true);
       createNewChat();
+      testAuth();
     } catch {
       setLoginError("Server error");
     }
@@ -136,6 +137,12 @@ function LogSign() {
       setSignupError("Server error");
     }
   };
+
+  const testAuth= async()=>{
+   const res = await  fetch(`${server}/api/test-auth`, { credentials: "include" })
+   const result = await res.json();
+   console.log(result);
+  }
 
   return (
     <>

@@ -4,6 +4,15 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
+app.get("/api/test-auth", (req, res) => {
+  res.json({
+    isAuth: req.isAuthenticated(),
+    session: req.session,
+    user: req.user
+  });
+});
+
+
 router.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   try {
