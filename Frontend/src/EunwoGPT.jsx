@@ -42,9 +42,9 @@ function EunwoGPT() {
   };
 
     useEffect(() => {
-    const checkSession = async () => {
       setIsLoggedIn(true);
       setIsUser(true);
+    const checkSession = async () => {
       try {
         const res = await fetch(`${server}/api/auth/me`, {
           credentials: 'include',
