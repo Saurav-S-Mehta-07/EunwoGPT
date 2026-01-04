@@ -38,11 +38,13 @@ function LogSign() {
   const [signupValidated, setSignupValidated] = useState(false);
 
   const showLoginPage = () => {
+    setIsLoggedIn(true);
     setShowLogIn(true);
     setShowSignUp(false);
   };
 
   const showSignUpPage = () => {
+    setIsLoggedIn(true);
     setShowSignUp(true);
     setShowLogIn(false);
   };
@@ -59,7 +61,6 @@ function LogSign() {
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleLogin = async (e) => {
-    
     e.preventDefault();
     setLoginValidated(true);
     setLoginError("");
@@ -88,9 +89,6 @@ function LogSign() {
       }
       setIsUser(true);
       createNewChat();
-      setIsLoggedIn(true); 
-      setShowLogIn(false);
-      setShowSignUp(false);
     } catch {
       setLoginError("Server error");
     }
@@ -134,9 +132,6 @@ function LogSign() {
       setIsUser(true);
       createNewChat();
       setLoading(false);
-      setIsLoggedIn(true);
-      setShowLogIn(false);
-      setShowSignUp(false); 
     } catch {
       setSignupError("Server error");
     }
