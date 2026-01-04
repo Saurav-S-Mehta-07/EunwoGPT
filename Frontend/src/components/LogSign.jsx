@@ -59,6 +59,7 @@ function LogSign() {
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleLogin = async (e) => {
+    
     e.preventDefault();
     setLoginValidated(true);
     setLoginError("");

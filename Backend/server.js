@@ -31,8 +31,11 @@ app.use(
       mongoUrl: process.env.MONGO_ATLAS_URL
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 14,
-    }
+  maxAge: 1000 * 60 * 60 * 24 * 14,
+  httpOnly: true,
+  secure: true,        
+  sameSite: "none"    
+}
   })
 );
 
