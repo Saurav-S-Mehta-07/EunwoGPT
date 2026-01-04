@@ -38,13 +38,11 @@ function LogSign() {
   const [signupValidated, setSignupValidated] = useState(false);
 
   const showLoginPage = () => {
-    setIsLoggedIn(true);
     setShowLogIn(true);
     setShowSignUp(false);
   };
 
   const showSignUpPage = () => {
-    setIsLoggedIn(true);
     setShowSignUp(true);
     setShowLogIn(false);
   };
@@ -73,14 +71,13 @@ function LogSign() {
     }
 
     try {
-      setLoading(true);
+       setLoading(true);
       const res = await fetch(`${server}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ email: loginEmail, password: loginPassword }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -88,13 +85,13 @@ function LogSign() {
         setLoading(false);
         return;
       }
-
-      setIsLoggedIn(true);
       setIsUser(true);
       createNewChat();
+      setIsLoggedIn(true);
     } catch {
       setLoginError("Server error");
-    } finally {
+    }
+    finally{
       setLoading(false);
     }
   };
@@ -131,12 +128,13 @@ function LogSign() {
         return;
       }
 
-      setIsLoggedIn(true);
       setIsUser(true);
       createNewChat();
       setLoading(false);
+      setIsLoggedIn(true);
     } catch {
       setSignupError("Server error");
+      setLoading(false);
     }
   };
 
@@ -150,7 +148,7 @@ function LogSign() {
 
       {!isLoggedIn && (
         <div className="LogSign">
-          {logoutMsg && <p style={{ color: "rgba(44, 25, 214, 1)" }}>{logoutMsg}</p>}
+          {logoutMsg && <p style={{color:"rgba(44, 25, 214, 1)"}}>{logoutMsg}</p>}
           <h1>Welcome to EunwoGPT</h1>
           <button className="loginBtn" onClick={showLoginPage}>Login</button>
           <button className="signupBtn" onClick={showSignUpPage}>Signup</button>
@@ -203,8 +201,10 @@ function LogSign() {
       )}
 
       {showSignUp && (
+        
         <form className="signupPage" noValidate onSubmit={handleSignup}>
           <BeatLoader color="white" loading={loading} />
+            
           {signupError && <p style={{ color: "red" }}>{signupError}</p>}
 
           <input

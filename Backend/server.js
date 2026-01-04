@@ -16,13 +16,11 @@ const PORT = process.env.PORT||8080;
 const app = express();
 
 app.use(cors({
-  origin: "https://eunwogpt-cb0g.onrender.com", 
+  origin: "http://localhost:5173", 
   credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.set("trust proxy", 1);
 
 app.use(
   session({
@@ -34,13 +32,9 @@ app.use(
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 14,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none"
     }
   })
 );
-
 
 app.use(passport.initialize());
 app.use(passport.session());
