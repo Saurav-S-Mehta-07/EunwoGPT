@@ -40,6 +40,33 @@ function EunwoGPT() {
    logoutMsg, setLogoutMsg
   };
 
+    useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await fetch(`${server}/api/auth/me`, {
+          credentials: 'include',
+        });
+        const data = await res.json();
+
+        if (res.ok && data.user) {
+          setIsUser(true);
+          setIsLoggedIn(true);
+          setCurrThreadId(uuidv1());
+          setPrevChats([]);
+        } else {
+          setIsUser(false);
+          setIsLoggedIn(false);
+        }
+      } catch (err) {
+        console.error("Session check failed:", err);
+        setIsUser(false);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
   return ( 
      <div className='app'>
  
