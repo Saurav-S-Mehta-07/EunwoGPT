@@ -20,7 +20,7 @@ app.set("trust proxy", 1);
 const FRONTEND_ORIGIN =
   process.env.NODE_ENV === "production"
     ? "https://eunwogpt-cb0g.onrender.com" 
-    : "http://localhost:3000";
+    : "http://localhost:5173";
 
 
 app.use(
