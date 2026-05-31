@@ -66,6 +66,13 @@ body{
     .fa-trash{
         opacity: 1;
     }
+
+    .userMessage{
+        font-size: 1rem;
+    }
+    .gptDiv{
+        font-size: 1rem;
+    }
 }
 
 @media (max-width:250px) {
