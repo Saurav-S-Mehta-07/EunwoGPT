@@ -3,7 +3,7 @@ import { BeatLoader } from "react-spinners";
 
 import "./LogSign.css";
 import { MyContext } from "./MyContext";
-import video from "../assets/video1.mp4";
+// import video from "../assets/video1.mp4";
 import { v1 as uuidv1 } from "uuid";
 import server from './environment.js';
 
@@ -140,11 +140,11 @@ function LogSign() {
 
   return (
     <>
-      <div className="videoDivInLogInPage">
+      {/* <div className="videoDivInLogInPage">
         <video autoPlay muted loop playsInline className="video">
           <source src={video} type="video/mp4" />
         </video>
-      </div>
+      </div> */}
 
       {!isLoggedIn && (
         <div className="LogSign">
