@@ -3,7 +3,7 @@ import "./Chatwindow.css";
 import Chat from "./Chat.jsx";
 import { ScaleLoader, BeatLoader , CircleLoader} from "react-spinners";
 import { MyContext } from "./MyContext.jsx";
-// import { Backgrounds } from "../assets/assests.js";
+import { Backgrounds } from "../assets/assests.js";
 import server from './environment.js';
 
 function ChatWindow() {
@@ -97,20 +97,20 @@ function ChatWindow() {
     }
   };
 
-  // const changeTheme = () => {
-  //   const themes = [
-  //     null,
-  //     Backgrounds.video1,
-  //     Backgrounds.video2,
-  //     Backgrounds.video3,
-  //     Backgrounds.video4
-  //   ];
-  //   setIndex((prev) => {
-  //     const next = (prev + 1) % themes.length;
-  //     setTheme(themes[next]);
-  //     return next;
-  //   });
-  // };
+  const changeTheme = () => {
+    const themes = [
+      null,
+      Backgrounds.video1,
+      Backgrounds.video2,
+      Backgrounds.video3,
+      Backgrounds.video4
+    ];
+    setIndex((prev) => {
+      const next = (prev + 1) % themes.length;
+      setTheme(themes[next]);
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (videoRef.current) videoRef.current.load();
@@ -154,7 +154,7 @@ function ChatWindow() {
 
   return (
     <>
-      {/* <div
+      <div
         className="videoDiv"
         onClick={() => {
           setIsDropDownOpen(false);
@@ -172,7 +172,7 @@ function ChatWindow() {
         >
           {theme && <source src={theme} type="video/mp4" />}
         </video>
-      </div> */}
+      </div>
 
       <div
         className="chatWindow"
