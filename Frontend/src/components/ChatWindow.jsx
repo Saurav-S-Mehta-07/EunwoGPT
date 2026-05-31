@@ -198,7 +198,7 @@ function ChatWindow() {
           </span>
 
           <div className="userIconDiv">
-            <span className="themeIcon" onClick={changeTheme}>
+            <span className="themeIcon"> 
               <i className="fa-solid fa-droplet"></i>
             </span>
             <span
