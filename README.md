@@ -221,4 +221,3 @@ Base URL: `http://localhost:8080/api`
 - No automated test suite is currently configured.
 - No token/usage controls or rate limiting are implemented yet.
 - Error messaging can be improved for production observability.
-- Frontend API URL is controlled by a hardcoded flag, not `.env` at the moment.
