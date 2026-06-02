@@ -5,7 +5,7 @@ import "./LogSign.css";
 import { MyContext } from "./MyContext";
 // import video from "../assets/video1.mp4";
 import { v1 as uuidv1 } from "uuid";
-import server from './environment.js';
+import server from "./environment.js";
 
 function LogSign() {
   const {
@@ -18,7 +18,7 @@ function LogSign() {
     setNewChat,
     setReply,
     setIsDropDownOpen,
-    logoutMsg
+    logoutMsg,
   } = useContext(MyContext);
 
   const [loading, setLoading] = useState(false);
@@ -38,13 +38,13 @@ function LogSign() {
   const [signupValidated, setSignupValidated] = useState(false);
 
   const showLoginPage = () => {
-      setIsLoggedIn(true);
+    setIsLoggedIn(true);
     setShowLogIn(true);
     setShowSignUp(false);
   };
 
   const showSignUpPage = () => {
-      setIsLoggedIn(true);
+    setIsLoggedIn(true);
     setShowSignUp(true);
     setShowLogIn(false);
   };
@@ -73,7 +73,7 @@ function LogSign() {
     }
 
     try {
-       setLoading(true);
+      setLoading(true);
       const res = await fetch(`${server}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -91,8 +91,7 @@ function LogSign() {
       createNewChat();
     } catch {
       setLoginError("Server error");
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -140,18 +139,27 @@ function LogSign() {
 
   return (
     <>
-      {/* <div className="videoDivInLogInPage">
+      <div className="videoDivInLogInPage">
         <video autoPlay muted loop playsInline className="video">
-          <source src={video} type="video/mp4" />
+          <source
+            src="https://res.cloudinary.com/drwoag8ru/video/upload/v1780428268/video1_mc9xmg.mp4"
+            type="video/mp4"
+          />
         </video>
-      </div> */}
+      </div>
 
       {!isLoggedIn && (
         <div className="LogSign">
-          {logoutMsg && <p style={{color:"rgba(44, 25, 214, 1)"}}>{logoutMsg}</p>}
+          {logoutMsg && (
+            <p style={{ color: "rgba(44, 25, 214, 1)" }}>{logoutMsg}</p>
+          )}
           <h1>Welcome to EunwoGPT</h1>
-          <button className="loginBtn" onClick={showLoginPage}>Login</button>
-          <button className="signupBtn" onClick={showSignUpPage}>Signup</button>
+          <button className="loginBtn" onClick={showLoginPage}>
+            Login
+          </button>
+          <button className="signupBtn" onClick={showSignUpPage}>
+            Signup
+          </button>
           <p>login / signup to use EunwoGPT</p>
         </div>
       )}
@@ -159,7 +167,9 @@ function LogSign() {
       {showLogIn && (
         <form className="loginPage" noValidate onSubmit={handleLogin}>
           <BeatLoader color="white" loading={loading} />
-          {loginError && <p style={{ color: "rgb(190, 52, 52)" }}>{loginError}</p>}
+          {loginError && (
+            <p style={{ color: "rgb(190, 52, 52)" }}>{loginError}</p>
+          )}
 
           <input
             type="email"
@@ -193,7 +203,10 @@ function LogSign() {
 
           <p>
             Don't have an account?{" "}
-            <span onClick={showSignUpPage} style={{ cursor: "pointer", color: "blue" }}>
+            <span
+              onClick={showSignUpPage}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
               Register here
             </span>
           </p>
@@ -201,10 +214,9 @@ function LogSign() {
       )}
 
       {showSignUp && (
-        
         <form className="signupPage" noValidate onSubmit={handleSignup}>
           <BeatLoader color="white" loading={loading} />
-            
+
           {signupError && <p style={{ color: "red" }}>{signupError}</p>}
 
           <input
@@ -253,7 +265,10 @@ function LogSign() {
 
           <p>
             Already have an account?{" "}
-            <span onClick={showLoginPage} style={{ cursor: "pointer", color: "blue" }}>
+            <span
+              onClick={showLoginPage}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
               Login here
             </span>
           </p>

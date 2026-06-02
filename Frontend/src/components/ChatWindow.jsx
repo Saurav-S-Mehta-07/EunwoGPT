@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import "./Chatwindow.css";
 import Chat from "./Chat.jsx";
-import { ScaleLoader, BeatLoader , CircleLoader} from "react-spinners";
+import { ScaleLoader, BeatLoader, CircleLoader } from "react-spinners";
 import { MyContext } from "./MyContext.jsx";
-// import { Backgrounds } from "../assets/assests.js";
-import server from './environment.js';
+import { Backgrounds } from "../assets/assests.js";
+import server from "./environment.js";
 
 function ChatWindow() {
   const {
@@ -28,7 +28,7 @@ function ChatWindow() {
   const [loading, setLoading] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
   const [index, setIndex] = useState(0);
-  // const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState(null);
 
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
@@ -97,24 +97,29 @@ function ChatWindow() {
     }
   };
 
-  // const changeTheme = () => {
-  //   const themes = [
-  //     null,
-  //     Backgrounds.video1,
-  //     Backgrounds.video2,
-  //     Backgrounds.video3,
-  //     Backgrounds.video4
-  //   ];
-  //   setIndex((prev) => {
-  //     const next = (prev + 1) % themes.length;
-  //     setTheme(themes[next]);
-  //     return next;
-  //   });
-  // };
+  const themes = [
+    null,
+    Backgrounds.video1,
+    Backgrounds.video2,
+    Backgrounds.video3,
+    Backgrounds.video4,
+  ];
 
-  // useEffect(() => {
-  //   if (videoRef.current) videoRef.current.load();
-  // }, [theme]);
+  const changeTheme = () => {
+    setIndex((prev) => {
+      const next = (prev + 1) % themes.length;
+      setTheme(themes[next]);
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [theme]);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -143,7 +148,6 @@ function ChatWindow() {
     recognition.onerror = () => setIsListening(false);
 
     recognitionRef.current = recognition;
-
   }, []);
 
   const startMic = () => {
@@ -154,7 +158,7 @@ function ChatWindow() {
 
   return (
     <>
-      {/* <div
+      <div
         className="videoDiv"
         onClick={() => {
           setIsDropDownOpen(false);
@@ -169,10 +173,9 @@ function ChatWindow() {
           playsInline
           className="video"
           preload="metadata"
-        >
-          {theme && <source src={theme} type="video/mp4" />}
-        </video>
-      </div> */}
+          src={theme || undefined}
+        />
+      </div>
 
       <div
         className="chatWindow"
@@ -198,7 +201,7 @@ function ChatWindow() {
           </span>
 
           <div className="userIconDiv">
-            <span className="themeIcon"> 
+            <span className="themeIcon" onClick={changeTheme}>
               <i className="fa-solid fa-droplet"></i>
             </span>
             <span
@@ -257,19 +260,19 @@ function ChatWindow() {
               }}
             />
 
-            {(speechSupported && prompt.trim().length===0) && (
+            {speechSupported && prompt.trim().length === 0 && (
               <div
                 onClick={startMic}
                 id="micIconDiv"
                 className={isListening ? "mic-on" : "mic-off"}
               >
-              <i className="fa-solid fa-microphone"></i>
+                <i className="fa-solid fa-microphone"></i>
               </div>
             )}
-            {(prompt.trim().length!==0 || !speechSupported) && (
-            <div id="submit" onClick={() => prompt.trim() && getReply()}>
-              <i className="fa-solid fa-paper-plane"></i>
-            </div>
+            {(prompt.trim().length !== 0 || !speechSupported) && (
+              <div id="submit" onClick={() => prompt.trim() && getReply()}>
+                <i className="fa-solid fa-paper-plane"></i>
+              </div>
             )}
           </div>
 
